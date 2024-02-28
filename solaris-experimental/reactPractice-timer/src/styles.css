@@ -1,0 +1,19 @@
+body {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.two-column {
+  display: grid;
+  grid-template-columns: 80% 20%;
+}
+
+.top-bar {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+button {
+  margin: 0.5rem;
+}

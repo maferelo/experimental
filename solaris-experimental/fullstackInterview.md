@@ -1,3 +1,7 @@
+# Fullstack Interview Questions
+
+## Frontend
+
 ### How does javascript handle asynchronous code?
 
 Javascript is a single threaded language, meaning it can only do one thing at a time. This is why asynchronous code is so important. Asynchronous code allows us to do multiple things at once. Javascript handles asynchronous code by using the event loop. The event loop is a queue of functions that are waiting to be executed. When an asynchronous function is called, it is added to the event loop. When the function is finished, it is removed from the event loop and the next function is executed.
@@ -13,6 +17,8 @@ The old react lifecycle methods are componentWillMount, componentDidMount, compo
 ### How does react virtual dom work?
 
 React virtual dom is a lightweight representation of the actual dom. It is used to speed up rendering by only updating the parts of the dom that have changed. React virtual dom is a tree of React elements. Each React element is a lightweight representation of a dom node. When a React element is rendered, it is converted into a dom node and added to the dom. When a React element is updated, it is converted into a new dom node and the old dom node is replaced with the new dom node.
+
+## Backend
 
 ### HTTP Methods
 

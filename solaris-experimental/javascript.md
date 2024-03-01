@@ -1,4 +1,4 @@
-## Javascript Refresh
+# Javascript Refresh
 
 map changes each element in an array
 

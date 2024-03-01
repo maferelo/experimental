@@ -1,9 +1,37 @@
 {
     "cells": [
         {
+            "language": "markdown",
+            "source": [
+                "# Javascript - The JavaScript Programming Language"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Prerequisites: \n\n- Node.js and npm.\n- VSCode.\n- VSCode [Node.js Notebooks (REPL)](https://marketplace.visualstudio.com/items?itemName=donjayamanne.typescript-notebook) extension."
+            ],
+            "outputs": []
+        },
+        {
             "language": "shellscript",
             "source": [
-                "## You can nwo install npm packages directly from a notebook.\n## These scripts run a little slower due to the fact terminals take a while to startup.\nnpm install mocha"
+                "# Install node modules\nnpm install"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "## Looping through an array"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "// For loop\nfor (let i = 0; i < 3; i++) {\n  console.log(i);\n}\n\n// Map function\n[1, 2, 3].map((x) => x * x);\n\n// Filter function\n[1, 2, 3].filter((x) => x > 1);"
             ],
             "outputs": [
                 {
@@ -11,19 +39,68 @@
                         {
                             "mime": "application/vnd.code.notebook.stdout",
                             "value": [
-                                "",
-                                "added 9 packages, and audited 83 packages in 4s",
-                                "",
-                                "20 packages are looking for funding",
-                                "  run `npm fund` for details",
-                                "",
-                                "found 0 vulnerabilities",
+                                "0",
+                                "1",
+                                "2",
+                                ""
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "items": [
+                        {
+                            "mime": "text/plain",
+                            "value": [
+                                "[",
+                                "  \u001b[33m2\u001b[39m,",
+                                "  \u001b[33m3\u001b[39m",
+                                "]"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "## Promises"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "A promise is a special JavaScript object that links the \"producing code\" and the \"consuming code\" together. The \"producing code\" takes time to produce the result, and the \"consuming code\" takes time to consume the result. A promise is a placeholder for the result, and it can be in one of the following states:\n\n- pending: initial state, neither fulfilled nor rejected.\n- fulfilled: meaning that the operation completed successfully.\n- rejected: meaning that the operation failed.\n\nThe promise object has a `then` method, which is used to attach callbacks to the promise. The `then` method takes two arguments: the first is a callback that is called when the promise is fulfilled, and the second is a callback that is called when the promise is rejected."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "function promise() {\n  return new Promise((resolve, reject) => {\n    if (true) {\n      resolve('I promise to return a string');\n    } else {\n      reject('I promise to return a string');\n    }\n    });\n}\n\npromise().then((value) => {\n  console.log(value);\n}, (error) => {\n  console.log(error);\n});\n\nasync function executePromise() {\n  let value = await promise();\n  console.log(value);\n}"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "I promise to return a string",
                                 ""
                             ]
                         }
                     ]
                 }
             ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "## AXIOS"
+            ],
+            "outputs": []
         },
         {
             "language": "javascript",
@@ -35,7 +112,7 @@
         {
             "language": "javascript",
             "source": [
-                "axios.get('https://api.github.com/users/mapbox')\n  .then((response) => {\n    console.log(response.data);\n    console.log(response.status);\n    console.log(response.statusText);\n    console.log(response.headers);\n    console.log(response.config);\n  });"
+                "const url = 'https://pokeapi.co/api/v2/pokemon';\n\naxios.get(url, {\n  params: {\n    limit: 10,\n  }\n})\n  .then((response) => {\n    console.log(response.data);\n  })\n  .catch((error) => {\n    console.log(error);\n  })\n  .finally(() => {\n    console.log('Request completed');\n  })\n;"
             ],
             "outputs": [
                 {
@@ -44,73 +121,88 @@
                             "mime": "application/vnd.code.notebook.stdout",
                             "value": [
                                 "{",
-                                "  login: 'mapbox',",
-                                "  id: 600935,",
-                                "  node_id: 'MDEyOk9yZ2FuaXphdGlvbjYwMDkzNQ==',",
-                                "  avatar_url: 'https://avatars.githubusercontent.com/u/600935?v=4',",
-                                "  gravatar_id: '',",
-                                "  url: 'https://api.github.com/users/mapbox',",
-                                "  html_url: 'https://github.com/mapbox',",
-                                "  followers_url: 'https://api.github.com/users/mapbox/followers',",
-                                "  following_url: 'https://api.github.com/users/mapbox/following{/other_user}',",
-                                "  gists_url: 'https://api.github.com/users/mapbox/gists{/gist_id}',",
-                                "  starred_url: 'https://api.github.com/users/mapbox/starred{/owner}{/repo}',",
-                                "  subscriptions_url: 'https://api.github.com/users/mapbox/subscriptions',",
-                                "  organizations_url: 'https://api.github.com/users/mapbox/orgs',",
-                                "  repos_url: 'https://api.github.com/users/mapbox/repos',",
-                                "  events_url: 'https://api.github.com/users/mapbox/events{/privacy}',",
-                                "  received_events_url: 'https://api.github.com/users/mapbox/received_events',",
-                                "  type: 'Organization',",
-                                "  site_admin: false,",
-                                "  name: 'Mapbox',",
-                                "  company: null,",
-                                "  blog: 'https://www.mapbox.com',",
-                                "  location: 'Washington DC',",
-                                "  email: null,",
-                                "  hireable: null,",
-                                "  bio: \"Mapbox is the location data platform for mobile and web applications. We're changing the way people move around cities and explore our world. \",",
-                                "  twitter_username: 'mapbox',",
-                                "  public_repos: 849,",
-                                "  public_gists: 0,",
-                                "  followers: 1374,",
-                                "  following: 0,",
-                                "  created_at: '2011-02-04T19:02:13Z',",
-                                "  updated_at: '2023-11-20T22:23:28Z'",
+                                "  count: 1302,",
+                                "  next: 'https://pokeapi.co/api/v2/pokemon?offset=10&limit=10',",
+                                "  previous: null,",
+                                "  results: [",
+                                "    { name: 'bulbasaur', url: 'https://pokeapi.co/api/v2/pokemon/1/' },",
+                                "    { name: 'ivysaur', url: 'https://pokeapi.co/api/v2/pokemon/2/' },",
+                                "    { name: 'venusaur', url: 'https://pokeapi.co/api/v2/pokemon/3/' },",
+                                "    { name: 'charmander', url: 'https://pokeapi.co/api/v2/pokemon/4/' },",
+                                "    { name: 'charmeleon', url: 'https://pokeapi.co/api/v2/pokemon/5/' },",
+                                "    { name: 'charizard', url: 'https://pokeapi.co/api/v2/pokemon/6/' },",
+                                "    { name: 'squirtle', url: 'https://pokeapi.co/api/v2/pokemon/7/' },",
+                                "    { name: 'wartortle', url: 'https://pokeapi.co/api/v2/pokemon/8/' },",
+                                "    { name: 'blastoise', url: 'https://pokeapi.co/api/v2/pokemon/9/' },",
+                                "    { name: 'caterpie', url: 'https://pokeapi.co/api/v2/pokemon/10/' }",
+                                "  ]",
                                 "}",
-                                "{",
-                                "  transitional: {",
-                                "    silentJSONParsing: true,",
-                                "    forcedJSONParsing: true,",
-                                "    clarifyTimeoutError: false",
-                                "  },",
-                                "  adapter: [ 'xhr', 'http' ],",
-                                "  transformRequest: [ [Function: transformRequest] ],",
-                                "  transformResponse: [ [Function: transformResponse] ],",
-                                "  timeout: 0,",
-                                "  xsrfCookieName: 'XSRF-TOKEN',",
-                                "  xsrfHeaderName: 'X-XSRF-TOKEN',",
-                                "  maxContentLength: -1,",
-                                "  maxBodyLength: -1,",
-                                "  env: {",
-                                "    FormData: [Function: FormData] {",
-                                "      LINE_BREAK: '\\r\\n',",
-                                "      DEFAULT_CONTENT_TYPE: 'application/octet-stream'",
-                                "    },",
-                                "    Blob: [class Blob]",
-                                "  },",
-                                "  validateStatus: [Function: validateStatus],",
-                                "  headers: Object [AxiosHeaders] {",
-                                "    Accept: 'application/json, text/plain, */*',",
-                                "    'Content-Type': undefined,",
-                                "    'User-Agent': 'axios/1.6.7',",
-                                "    'Accept-Encoding': 'gzip, compress, deflate, br'",
-                                "  },",
-                                "  method: 'get',",
-                                "  url: 'https://api.github.com/users/mapbox',",
-                                "  data: undefined",
-                                "}",
+                                "Request completed",
                                 ""
                             ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "async function getPokemon() {\n  try {\n    const response = await axios.get(url, {\n      params: {\n        limit: 10,\n      }\n    });\n    console.log(response.data);\n  } catch (error) {\n    console.log(error);\n  } finally {\n    console.log('Request completed');\n  }\n}\n\ngetPokemon();"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "{",
+                                "  count: 1302,",
+                                "  next: 'https://pokeapi.co/api/v2/pokemon?offset=10&limit=10',",
+                                "  previous: null,",
+                                "  results: [",
+                                "    { name: 'bulbasaur', url: 'https://pokeapi.co/api/v2/pokemon/1/' },",
+                                "    { name: 'ivysaur', url: 'https://pokeapi.co/api/v2/pokemon/2/' },",
+                                "    { name: 'venusaur', url: 'https://pokeapi.co/api/v2/pokemon/3/' },",
+                                "    { name: 'charmander', url: 'https://pokeapi.co/api/v2/pokemon/4/' },",
+                                "    { name: 'charmeleon', url: 'https://pokeapi.co/api/v2/pokemon/5/' },",
+                                "    { name: 'charizard', url: 'https://pokeapi.co/api/v2/pokemon/6/' },",
+                                "    { name: 'squirtle', url: 'https://pokeapi.co/api/v2/pokemon/7/' },",
+                                "    { name: 'wartortle', url: 'https://pokeapi.co/api/v2/pokemon/8/' },",
+                                "    { name: 'blastoise', url: 'https://pokeapi.co/api/v2/pokemon/9/' },",
+                                "    { name: 'caterpie', url: 'https://pokeapi.co/api/v2/pokemon/10/' }",
+                                "  ]",
+                                "}",
+                                "Request completed",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "## Local Storage"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "```js\nlocalStorage.setItem('name', 'John Doe');\nlocalStorage.getItem('name');\nlocalStorage.removeItem('name');\n```"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.error",
+                            "value": {
+                                "name": "ReferenceError",
+                                "message": "localStorage is not defined",
+                                "stack": "    at <Cell 14> [1, 0]\n    at <Cell 14> [6, 46]\n    at Script.runInContext (node:vm:133:12)\n    at Script.runInNewContext (node:vm:138:17)\n    at Object.runInNewContext (node:vm:296:38)\n    at C (/Users/dharma/.vscode/extensions/donjayamanne.typescript-notebook-2.0.6/out/extension/server/index.js:2:113345)\n    at t.execCode (/Users/dharma/.vscode/extensions/donjayamanne.typescript-notebook-2.0.6/out/extension/server/index.js:2:114312)\n    at k.<anonymous> (/Users/dharma/.vscode/extensions/donjayamanne.typescript-notebook-2.0.6/out/extension/server/index.js:2:142156)\n    at k.emit (node:events:519:28)\n    at k.emit (node:domain:488:12)"
+                            }
                         }
                     ]
                 }

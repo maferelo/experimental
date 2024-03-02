@@ -1,8 +1,6 @@
-## Typescript notes / cheatsheet / refresher
+# Typescript
 
-### Typescript types
-
-#### Primitives
+## Primitives
 
 ```ts
 // string | number | boolean | any | void | null | undefined | never
@@ -10,7 +8,7 @@ let a: number = 1;
 const arr: Array<number> = [1, 2, 3];
 ```
 
-#### Record
+## Record
 
 ```ts
 let thisRecord: Record<string, number> = {
@@ -20,7 +18,7 @@ let thisRecord: Record<string, number> = {
 };
 ```
 
-#### Function
+## Function
 
 ```ts
 let myFunc: (a: number, b: number) => number = (a, b) => a + b;

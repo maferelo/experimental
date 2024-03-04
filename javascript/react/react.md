@@ -346,6 +346,26 @@ const Users = () => {
 export default Users;
 ```
 
+### Use shorthand for boolean props
+
+```jsx
+// Bad
+<Checkbox checked={true} />
+
+// Good
+<Checkbox checked />
+```
+
+### Avoid curly braces for string props
+
+```jsx
+// Bad
+<Checkbox label={"Checkbox"} />
+
+// Good
+<Checkbox label="Checkbox" />
+```
+
 ## Architecture
 
 ### Application Requirements

@@ -1,6 +1,8 @@
 # Typescript
 
-## Primitives
+## Types
+
+### Primitives
 
 ```ts
 // string | number | boolean | any | void | null | undefined | never
@@ -8,7 +10,7 @@ let a: number = 1;
 const arr: Array<number> = [1, 2, 3];
 ```
 
-## Record
+### Record
 
 ```ts
 let thisRecord: Record<string, number> = {
@@ -18,7 +20,7 @@ let thisRecord: Record<string, number> = {
 };
 ```
 
-## Function
+### Function
 
 ```ts
 let myFunc: (a: number, b: number) => number = (a, b) => a + b;
@@ -42,7 +44,7 @@ Function that returns a function
 let myFunc: (mutate: (a: number) => number) => number = (mutate) => mutate(1);
 ```
 
-#### Promise
+### Promise
 
 ```ts
 let myPromise: Promise<number> = new Promise((resolve, reject) => {
@@ -50,7 +52,7 @@ let myPromise: Promise<number> = new Promise((resolve, reject) => {
 });
 ```
 
-#### Extending types
+### Extending types
 
 ```ts
 interface MyInterface {
@@ -63,7 +65,7 @@ interface MyExtendedInterface extends MyInterface {
 }
 ```
 
-#### Function overloads
+### Function overloads
 
 Allows a function to have multiple signatures with different return types.
 
@@ -75,7 +77,7 @@ function myFunc(a: unknown, b: unknown): number | string {
 }
 ```
 
-#### Tuple
+### Tuple
 
 ```ts
 let myTuple: [number, string] = [1, "a"];
@@ -90,6 +92,91 @@ function myFunc<T>(a: T): T {
 
 let a = myFunc<number>(1);
 let b = myFunc<string>("a");
+```
+
+## Utility types
+
+### Partial
+
+```ts
+interface MyInterface {
+  a: number;
+  b: number;
+}
+
+let myPartial: Partial<MyInterface> = {
+  a: 1,
+};
+```
+
+### keyof
+
+```ts
+interface MyInterface {
+  a: number;
+  b: number;
+}
+
+let myKeyof: keyof MyInterface = "a";
+```
+
+### Pick
+
+```ts
+interface MyInterface {
+  a: number;
+  b: number;
+}
+
+let myPick: Pick<MyInterface, "a"> = {
+  a: 1,
+};
+```
+
+### Omit
+
+```ts
+interface MyInterface {
+  a: number;
+  b: number;
+}
+
+let myOmit: Omit<MyInterface, "a"> = {
+  b: 2,
+};
+```
+
+### Exclude
+
+```ts
+type MyType = "a" | "b" | "c";
+
+let myExclude: Exclude<MyType, "a"> = "b";
+```
+
+## Discriminated unions
+
+```ts
+interface Circle {
+  kind: "circle";
+  radius: number;
+}
+
+interface Square {
+  kind: "square";
+  sideLength: number;
+}
+
+type Shape = Circle | Square;
+
+function getArea(shape: Shape): number {
+  switch (shape.kind) {
+    case "circle":
+      return Math.PI * shape.radius ** 2;
+    case "square":
+      return shape.sideLength ** 2;
+  }
+}
 ```
 
 ### React
@@ -440,5 +527,33 @@ const Home: React.FC = () => {
 
 const About: React.FC = () => {
   return <h2>About</h2>;
+};
+```
+
+## UseMemo and UseCallback
+
+Usememo for component optimization and usecallback for event handlers (functions).
+
+```tsx
+const MyComponent: React.FC = () => {
+  const [count, setCount] = useState(0);
+  const [text, setText] = useState("");
+
+  const memoizedValue = useMemo(() => {
+    return count * 2;
+  }, [count]);
+
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setText(e.target.value);
+  }, []);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <p>Memoized value: {memoizedValue}</p>
+      <input type="text" value={text} onChange={handleChange} />
+    </div>
+  );
 };
 ```

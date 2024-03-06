@@ -528,6 +528,38 @@ const styles = {
 export const theme = extendTheme({ colors, styles });
 ```
 
+## Design Patterns
+
+### Provider
+
+Is a component that provides a context to its children. It's useful for providing global state to components that need it. It's also useful for providing configuration to components that need it.
+
+### Higher Order Component
+
+HOC have no side effects, they are pure functions that take a component and return a new component. They are useful for adding functionality to components without changing their implementation. They can be used to add state, props, or other functionality to components.
+
+### Presentational and Container Components
+
+Presentational components are components that are concerned with how things look. They are responsible for rendering UI elements and don't have any business logic. Container components are components that are concerned with how things work. They are responsible for managing state and handling events.
+
+### Hook
+
+Custom hooks are functions that use other hooks to provide functionality to components. They are useful for sharing logic between components. They can be used to create reusable logic that can be used in different components.
+
+### Render Props
+
+Render props are components that take a function as a prop and call that function with data. They are useful for sharing logic between components. They can be used to create reusable logic that can be used in different components.
+
+### Compound Components
+
+Compound components are components that share state and props. They are useful for creating reusable components that can be used in different ways. They can be used to create components that can be used in different ways.
+
+## Diffing Algorithm
+
+1. Start at the root of the tree using breadth-first search
+1. Compare the type of the current node
+1. Update if changes in attributes or styles
+
 ## References
 
 - [React pro](https://github.com/Klerith/react-adv)

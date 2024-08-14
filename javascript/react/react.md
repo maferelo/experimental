@@ -366,6 +366,16 @@ export default Users;
 <Checkbox label="Checkbox" />
 ```
 
+### Keep props key unique
+
+```jsx
+// Bad
+<Checkbox key={1} />
+
+// Good
+<Checkbox key="1-1" />
+```
+
 ## Architecture
 
 ### Application Requirements
@@ -553,6 +563,10 @@ Render props are components that take a function as a prop and call that functio
 ### Compound Components
 
 Compound components are components that share state and props. They are useful for creating reusable components that can be used in different ways. They can be used to create components that can be used in different ways.
+
+### Server Side Rendering, Static Rendering, Incremental Static Generation
+
+Server Side Rendering is a technique that allows you to render components on the server and send the HTML to the client. This can improve performance by reducing the amount of code that needs to be loaded. Static Rendering is a technique that allows you to render components at build time and send the HTML to the client. This can improve performance by reducing the amount of code that needs to be loaded. Incremental Static Generation is a technique that allows you to render components at build time and send the HTML to the client. This can improve performance by reducing the amount of code that needs to be loaded.
 
 ## Diffing Algorithm
 

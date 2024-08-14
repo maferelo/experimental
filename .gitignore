@@ -1,2 +1,4 @@
 node_modules/
 *.env
+python/trade/yfinance.cache
+python/trade/stock_data.csv

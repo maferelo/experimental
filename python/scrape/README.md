@@ -38,7 +38,7 @@ cp scrape.service /etc/systemd/system
 sudo systemctl enable scrape.service
 sudo systemctl start scrape.service
 sudo systemctl status scrape.service
-sudo $ systemctl --user --signal=SIGKILL kill scrape.service
+sudo systemctl --user --signal=SIGKILL kill scrape.service
 
 ```
 

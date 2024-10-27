@@ -1,0 +1,10 @@
+[Unit]
+Description=Simple RSS feed
+
+[Service]
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/home/dharma/develop/experimental/python/scrape/venv/bin/python /home/dharma/develop/experimental/python/scrape/scrape.py
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

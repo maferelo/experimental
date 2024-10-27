@@ -31,12 +31,20 @@ source venv/bin/activate
 pip install
 ```
 
-## Run on startup
+## Install as a service
 
 ```bash
-sudo crontab -e
+cp scrape.service /etc/systemd/system
+sudo systemctl enable scrape.service
+sudo systemctl start scrape.service
+sudo systemctl status scrape.service
+sudo $ systemctl --user --signal=SIGKILL kill scrape.service
+
 ```
 
+## Remove if other instances are running
+
 ```bash
-@reboot /home/dharma/develop/experimental/python/scrape/venv/bin/python /home/dharma/develop/experimental/python/scrape/scrape.py 
+ps aux | grpep python
+sudo kill <id>
 ```

@@ -31,7 +31,7 @@ source venv/bin/activate
 pip install
 ```
 
-## Install as a service
+### Install as a service
 
 ```bash
 cp scrape.service /etc/systemd/system
@@ -39,10 +39,19 @@ sudo systemctl enable scrape.service
 sudo systemctl start scrape.service
 sudo systemctl status scrape.service
 sudo systemctl --user --signal=SIGKILL kill scrape.service
-
 ```
 
-## Remove if other instances are running
+```bash
+docker run -it -d -p 80:80 --restart unless-stopped yeasy/simple-web:latest
+```
+
+## Troubleshooting
+
+- [Enable LAN connections on wsl to local network](https://github.com/microsoft/WSL/issues/4150)
+- [Fix wsl LAN connections](https://askubuntu.com/questions/1347712/make-etc-resolv-conf-changes-permanent-in-wsl-2)
+- [Enable systemctl in wsl](https://askubuntu.com/questions/1379425/system-has-not-been-booted-with-systemd-as-init-system-pid-1-cant-operate)
+
+### Remove if other instances are running
 
 ```bash
 ps aux | grpep python

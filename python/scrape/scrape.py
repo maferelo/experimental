@@ -18,12 +18,14 @@ To use the JobQueue, you must install PTB via
 `pip install "python-telegram-bot[job-queue]"`
 """
 
+import io
 import logging
 import os
 import time
 
 import feedparser
 import pickle
+import requests
 
 from dotenv import load_dotenv
 from telegram import Update
@@ -34,7 +36,7 @@ load_dotenv()  # take environment variables from .env.
 CHAT_ID = "713301950"
 
 def get_feeds():
-    feeds = [
+    return [
         # Science
         "https://www.nature.com/nmat.rss",
         "https://dynomight.net/feed.xml",
@@ -53,20 +55,17 @@ def get_feeds():
         "https://slack.engineering/feed",
         "http://www.forbes.com/entrepreneurs/index.xml",
         "http://venturebeat.com/feed/"
+        
+        # Stocks
+        "https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines",
+        "https://feeds.content.dowjones.io/public/rss/mw_marketpulse",
     ]
-    
-    # Stocks
-    nasdaq_categories = ["Commodities", "Dividends", "Earnings", "Economy", "ETFs", "Forex", "Futures", "Options", "Stocks", "Technical Analysis"]
-    nasdaq_feeds = [f"https://www.nasdaq.com/feed/rssout?category={category}" for category in nasdaq_categories]
-    
-    feeds += nasdaq_feeds
-    return feeds
 
 
 
 FEEDS = get_feeds()
 TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
-POLL_FEED_INTERVAL = 60  # 60 seconds 
+POLL_FEED_INTERVAL = 30  # 60 seconds 
 
 # Enable logging
 logging.basicConfig(
@@ -76,8 +75,18 @@ logging.basicConfig(
 def get_new_rss_entries():
     all_entries = []
     for feed in FEEDS:
-        all_entries.extend(feedparser.parse(feed).entries)
+        try:
+            response = requests.get(feed, timeout=5)
+        except requests.exceptions.RequestException as e:
+            logging.error(f"Error fetching feed {feed}: {e}")
+            continue
+        except requests.exceptions.Timeout as e:
+            logging.error(f"Timeout fetching feed {feed}: {e}")
+            continue
+        content = io.BytesIO(response.content)
+        all_entries.extend(feedparser.parse(content).entries)
     current_entries = {entry["link"] for entry in all_entries}
+    
 
     try:
         with open("rss_last_entries", 'rb') as f:
@@ -95,6 +104,7 @@ async def message_new_rss_entries(bot, chat_id):
     last_entries = get_new_rss_entries()
     if last_entries:
         for entrie in last_entries:
+            time.sleep(7)
             await bot.send_message(chat_id, text=f"{entrie}")
 
 

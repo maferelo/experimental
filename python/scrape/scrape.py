@@ -38,8 +38,8 @@ FEEDS = (
     "https://www.understandingwar.org/feeds.xml",
     "https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines"
 )
-TOKEN = "6150921122:AAFT28slt62WCJCbMIAORvtqxS4-CGugG0U"
-POLL_FEED_INTERVAL = 10  # 60 seconds 
+TOKEN = ""
+POLL_FEED_INTERVAL = 60  # 60 seconds 
 
 # Enable logging
 logging.basicConfig(

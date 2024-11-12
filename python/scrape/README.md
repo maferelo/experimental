@@ -29,6 +29,8 @@ pyenv install
 python -m venv venv
 source venv/bin/activate
 pip install
+pip install -r requirements.txt
+pip freeze >> requirements.txt
 ```
 
 ### Install as a service
@@ -57,3 +59,22 @@ docker run -it -d -p 80:80 --restart unless-stopped yeasy/simple-web:latest
 ps aux | grpep python
 sudo kill <id>
 ```
+
+
+set +o noclobber
+
+
+sudo wget https://github.com/electron/electron/releases/download/v33.0.2/chromedriver-v33.0.2-linux-x64.zip
+
+https://patrikmojzis.medium.com/how-to-run-selenium-using-python-on-raspberry-pi-d3fe058f011
+
+
+
+
+https://jwstanly.com/blog/article/Port+Forwarding+WSL+2+to+Your+LAN/
+
+
+
+
+
+

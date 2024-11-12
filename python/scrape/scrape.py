@@ -18,16 +18,22 @@ To use the JobQueue, you must install PTB via
 `pip install "python-telegram-bot[job-queue]"`
 """
 
-import feedparser
-import pickle
 import logging
+import os
 import time
 
+import feedparser
+import pickle
+
+from dotenv import load_dotenv
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 
+load_dotenv()  # take environment variables from .env.
+
 CHAT_ID = "713301950"
 FEEDS = (
+    
     "https://www.nature.com/nmat.rss",
     "https://dynomight.net/feed.xml",
     "https://www.sciencedaily.com/rss/top/science.xml",
@@ -38,7 +44,7 @@ FEEDS = (
     "https://www.understandingwar.org/feeds.xml",
     "https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines"
 )
-TOKEN = ""
+TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 POLL_FEED_INTERVAL = 60  # 60 seconds 
 
 # Enable logging

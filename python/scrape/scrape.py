@@ -32,18 +32,39 @@ from telegram.ext import Application, CommandHandler, ContextTypes
 load_dotenv()  # take environment variables from .env.
 
 CHAT_ID = "713301950"
-FEEDS = (
+
+def get_feeds():
+    feeds = [
+        # Science
+        "https://www.nature.com/nmat.rss",
+        "https://dynomight.net/feed.xml",
+        "https://www.sciencedaily.com/rss/top/science.xml",
+        "https://www.science.org/rss/news_current.xml",
+        "https://www.newscientist.com/section/news/feed/",
+        "https://phys.org/rss-feed/",
+        "https://www.wipo.int/patentscope/en/rss.xml"
+        "https://www.understandingwar.org/feeds.xml",
+        "https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines",
+        
+        # Tech
+        "https://news.mit.edu/rss/research",
+        "https://www.uber.com/blog/engineering/rss/",
+        "https://engineering.atspotify.com/feed/",
+        "https://slack.engineering/feed",
+        "http://www.forbes.com/entrepreneurs/index.xml",
+        "http://venturebeat.com/feed/"
+    ]
     
-    "https://www.nature.com/nmat.rss",
-    "https://dynomight.net/feed.xml",
-    "https://www.sciencedaily.com/rss/top/science.xml",
-    "https://www.science.org/rss/news_current.xml",
-    "https://www.newscientist.com/section/news/feed/",
-    "https://phys.org/rss-feed/",
-    "https://www.wipo.int/patentscope/en/rss.xml"
-    "https://www.understandingwar.org/feeds.xml",
-    "https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines"
-)
+    # Stocks
+    nasdaq_categories = ["Commodities", "Dividends", "Earnings", "Economy", "ETFs", "Forex", "Futures", "Options", "Stocks", "Technical Analysis"]
+    nasdaq_feeds = [f"https://www.nasdaq.com/feed/rssout?category={category}" for category in nasdaq_categories]
+    
+    feeds += nasdaq_feeds
+    return feeds
+
+
+
+FEEDS = get_feeds()
 TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 POLL_FEED_INTERVAL = 60  # 60 seconds 
 

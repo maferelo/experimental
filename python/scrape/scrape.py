@@ -31,6 +31,20 @@ from dotenv import load_dotenv
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 
+import yfinance as yf
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.metrics import mean_squared_error
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LSTM, Dense
+import matplotlib.pyplot as plt
+
+def get_stock_data(symbol, start_date, end_date):
+    stock_data = yf.download(symbol, start=start_date, end=end_date)
+    return stock_data
+
+
 load_dotenv()  # take environment variables from .env.
 
 CHAT_ID = "713301950"
@@ -59,6 +73,14 @@ def get_feeds():
         # Stocks
         "https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines",
         "https://feeds.content.dowjones.io/public/rss/mw_marketpulse",
+        
+        # E-commerce
+        "https://trends.google.com/trending/rss?geo=US",
+        "https://www.trendhunter.com/rss",
+        "https://www.theverge.com/rss/index.xml",
+        "https://www.trustedreviews.com/feed",
+        "http://feeds.slashgear.com/slashgear",
+        "https://www.engadget.com/rss.xml",
     ]
 
 
@@ -117,12 +139,86 @@ async def message_new_rss_entries(bot, chat_id):
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Sends explanation on how to use the bot."""
     await update.message.reply_text("Hi! Use /set <seconds> to set a timer")
+    
+# Define the prepare_data function
+def prepare_data(data, n_steps):
+    x, y = [], []
+    for i in range(len(data) - n_steps):
+        x.append(data[i:(i + n_steps), 0])
+        y.append(data[i + n_steps, 0])
+    return np.array(x), np.array(y)
+
+def create_lstm_model(input_shape):
+    """
+    Create and compile an LSTM model for time series prediction.
+
+    Parameters:
+    - input_shape (tuple): Shape of the input data in the form (time_steps, features).
+
+    Returns:
+    - model (Sequential): Compiled LSTM model.
+    """
+    model = Sequential()
+    # Add the first LSTM layer with 50 units and return sequences for the next layer
+    model.add(LSTM(units=50, return_sequences=True, input_shape=input_shape))
+    # Add the second LSTM layer with 50 units
+    model.add(LSTM(units=50))
+    # Add a Dense layer with 1 unit for regression
+    model.add(Dense(units=1))
+    
+    # Compile the model using the Adam optimizer and Mean Squared Error loss
+    model.compile(optimizer='adam', loss='mean_squared_error')
+    
+    return model
+    
+def predict_stock_price():
+    stock_symbol = 'AAPL'
+    stock_data = yf.download(stock_symbol,  period="max")
+    closing_prices = stock_data['Close'].values.reshape(-1, 1)
+    scaler = MinMaxScaler(feature_range=(0, 1))
+    closing_prices_scaled = scaler.fit_transform(closing_prices)
+    # Code snippet for creating and training the LSTM model
+    n_steps = 60
+
+    # Prepare the training data using the defined function
+    x_train, y_train = prepare_data(closing_prices_scaled, n_steps)
+
+    # Reshape the input data to fit the LSTM model
+    x_train = np.reshape(x_train, (x_train.shape[0], x_train.shape[1], 1))
+
+    # Create an instance of the LSTM model
+    model = create_lstm_model((x_train.shape[1], 1))
+
+    # Train the model on the training data
+    model.fit(x_train, y_train, epochs=3, batch_size=32)
+    
+    # Code snippet for making predictions and evaluation
+    train_predictions = model.predict(x_train)
+    train_predictions = scaler.inverse_transform(train_predictions)
+    mse = mean_squared_error(closing_prices[n_steps:], train_predictions)
+    
+    plt.figure(figsize=(12, 6))
+    plt.plot(stock_data.index[n_steps:], closing_prices[n_steps:], label='Actual Prices', color='blue')
+    plt.plot(stock_data.index[n_steps:], train_predictions, label='Predicted Prices', color='red')
+    plt.title(f'{stock_symbol} Stock Price Prediction using LSTM')
+    plt.xlabel('Date')
+    plt.ylabel('Stock Price (USD)')
+    plt.legend()
+    plt.savefig('predict.png')
+        
+    return f'Mean Squared Error on Training Data: {mse}'
 
 
 async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Send the alarm message."""
     await message_new_rss_entries(context.bot, context.job.chat_id)
-
+    
+async def predict(context: ContextTypes.DEFAULT_TYPE) -> None:
+    await context.bot.send_message(context.job.chat_id, "Predicting...")
+    await context.bot.send_message(context.job.chat_id, predict_stock_price())
+    await context.bot.send_photo(context.job.chat_id, photo=open('predict.png', 'rb'))
+    
+async def boot(context: ContextTypes.DEFAULT_TYPE) -> None:
+    await context.bot.send_message(context.job.chat_id, "Booting...")
 
 def remove_job_if_exists(name: str, context: ContextTypes.DEFAULT_TYPE) -> bool:
     """Remove job with given name. Returns whether job was removed."""
@@ -158,8 +254,10 @@ async def unset(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(text)
 
 
-async def send_start_message(self):
+async def post_init(self):
+    self.job_queue.run_once(boot, 0, chat_id=CHAT_ID)
     self.job_queue.run_repeating(alarm, POLL_FEED_INTERVAL, chat_id=CHAT_ID, name=CHAT_ID, data=POLL_FEED_INTERVAL)
+    self.job_queue.run_repeating(predict, 60, chat_id=CHAT_ID)
 
 
 def main() -> None:
@@ -172,7 +270,7 @@ def main() -> None:
     application.add_handler(CommandHandler("set", set_timer))
     application.add_handler(CommandHandler("unset", unset))
 
-    application.post_init = send_start_message
+    application.post_init = post_init
 
     # Run the bot until the user presses Ctrl-C
     application.run_polling(allowed_updates=Update.ALL_TYPES)
@@ -180,3 +278,10 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+    
+    
+    
+    
+    
+    
+    

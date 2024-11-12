@@ -2,3 +2,5 @@ output.txt
 venv/
 
 .env
+predict.png
+rss_last_entries

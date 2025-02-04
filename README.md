@@ -43,3 +43,10 @@ Check if the installation was successful:
 ```bash
 systemctl status docker
 ```
+
+## Config github
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "your@email.com"
+```

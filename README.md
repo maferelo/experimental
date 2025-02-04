@@ -58,3 +58,10 @@ Permission issues can be solved by adding the user to the docker group, might ne
 ```bash
 sudo usermod -aG docker $USER
 ```
+
+## Redis: Warning Memory overcommit must be enabled
+
+```bash
+echo "vm.overcommit_memory = 1" | sudo tee /etc/sysctl.d/nextcloud-aio-memory-overcommit.conf
+sudo reboot
+```

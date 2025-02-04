@@ -33,9 +33,20 @@ The fourth step is to train a distilled model to predict stock prices. We can us
 
 ## To Do
 
-- [ ] 1. Create a Dockerfile
-- [ ] 2. Create a docker-compose file
+- [x] 1. Create a Dockerfile
+- [x] 2. Create a docker-compose file
 - [ ] 3. Create a Flask API
+
+## Setup
+
+### Virtual environment
+
+Create a virtual environment using `venv`:
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
 
 ## Change Log
 

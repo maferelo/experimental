@@ -1,0 +1,19 @@
+services:
+  web:
+    build: .
+    container_name: flask_app
+    ports:
+      - "5000:5000"
+    depends_on:
+      - redis
+
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+
+  worker:
+    build: .
+    container_name: worker
+    command: rq worker --url redis://redis:6379/0
+    depends_on:
+      - redis

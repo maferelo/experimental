@@ -50,3 +50,11 @@ systemctl status docker
 git config --global user.name "Your Name"
 git config --global user.email "your@email.com"
 ```
+
+## VSCode Docker extension
+
+Permission issues can be solved by adding the user to the docker group, might need to reboot:
+
+```bash
+sudo usermod -aG docker $USER
+```

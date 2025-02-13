@@ -76,3 +76,16 @@ python3 -m venv venv
 
 source venv/bin/activate
 ```
+## Local network WSL ssh
+
+```powershell
+# Get the IP address of the WSL
+wsl hostname -I
+```
+
+```.ssh/config
+Host wsl
+    HostName localhost
+    ProxyJump <wsl_user>@<win_ip>
+    User <wsl_user>
+```

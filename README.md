@@ -64,4 +64,15 @@ sudo usermod -aG docker $USER
 ```bash
 echo "vm.overcommit_memory = 1" | sudo tee /etc/sysctl.d/nextcloud-aio-memory-overcommit.conf
 sudo reboot
+# Code guidelines
+
+## Python environment creation
+
+```bash
+mkdir <project_name>
+cd <project_name>
+
+python3 -m venv venv
+
+source venv/bin/activate
 ```

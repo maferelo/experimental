@@ -37,17 +37,24 @@ pip freeze >> requirements.txt
 
 ```bash
 cp scrape.service /etc/systemd/system
+# Start on boot
 sudo systemctl enable scrape.service
 sudo systemctl start scrape.service
 sudo systemctl status scrape.service
 sudo systemctl restart scrape.service
+# Kill
 sudo systemctl --user --signal=SIGKILL kill scrape.service
 
 journalctl --follow -u scrape.service
 ```
 
+## Run a basic webserver to check connections
+
 ```bash
 docker run -it -d -p 80:80 --restart unless-stopped yeasy/simple-web:latest
+
+# Check if the server is running
+curl -v http://localhost
 ```
 
 ## Troubleshooting

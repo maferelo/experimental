@@ -4,3 +4,6 @@ venv/
 .env
 predict.png
 rss_last_entries
+proxy-data/
+portainer-data/
+letsencrypt/

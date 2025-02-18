@@ -89,3 +89,16 @@ Host wsl
     ProxyJump <wsl_user>@<win_ip>
     User <wsl_user>
 ```
+
+## WSL port forwarding
+
+```powershell
+# Get the IP address of the WSL
+wsl hostname -I
+
+# Add the port forwarding rule
+netsh interface portproxy add v4tov4 listenport=[PORT] listenaddress=0.0.0.0 connectport=[PORT] connectaddress=[WSL_IP]
+
+# Check the rules
+netsh interface portproxy show v4tov4
+```

@@ -1,0 +1,16 @@
+services:
+  web:
+    image: 'yeasy/simple-web:latest'
+    restart: unless-stopped
+  proxy:
+    image: 'nginx:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+    depends_on:
+      - web
+    volumes:
+      - type: bind
+        source: ./proxy/nginx.conf
+        target: /etc/nginx/conf.d/default.conf
+        read_only: true

@@ -102,3 +102,16 @@ netsh interface portproxy add v4tov4 listenport=[PORT] listenaddress=0.0.0.0 con
 # Check the rules
 netsh interface portproxy show v4tov4
 ```
+
+## WSL nginx proxy
+
+```bash
+# Install nginx
+sudo apt-get install nginx
+
+# Set the proxy
+sudo nano /etc/nginx/sites-available/default
+
+# Restart nginx
+sudo systemctl restart nginx
+```

@@ -7,3 +7,7 @@ rss_last_entries
 proxy-data/
 portainer-data/
 letsencrypt/
+rss_last_entries/
+chromedriver
+
+*.png

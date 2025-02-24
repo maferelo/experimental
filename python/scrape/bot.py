@@ -48,19 +48,42 @@ def get_driver():
 def set_driver_aliexpress_cookie_locale(driver):
     driver.get(ALIEXPRESS_URL)
     driver.add_cookie(ALIEXPRESS_US_LOCALE_COOKIE)
+    del driver.requests
 
 @log
 def get_driver_api_request(driver, api):
     responses = []
-    for request in driver.requests[::-1]:
+    for request in driver.requests:
         if request.response and api in request.url:
-            body = decode(request.response.body, request.response.headers.get('Content-Encoding', 'identity'))
-            responses.append(json.loads(body))
+            body = json.loads(decode(request.response.body, request.response.headers.get('Content-Encoding', 'identity')))
+            responses.append(body)
     return responses
 
+@delay
+@screenshot
 @log
-def get_categories_from_api_request(response):
-    return response["data"]["data"]["categoryTabs"]["items"]
+def get_categories(driver, filename="categories.json"):
+    try:
+        categories = load_json_data(filename)
+    except FileNotFoundError:
+        driver.get(ALIEXPRESS_URL)
+        requests = get_driver_api_request(driver, ALIEXPRESS_CATEGORIES_API)
+        categories = get_categories_from_api_request(requests)
+        save_json_to_file(categories, filename)
+    return categories
+
+@log
+def get_categories_from_api_request(responses):
+    for response in responses:
+        if "data" in response and "data" in response["data"] and "categoryTabs" in response["data"]["data"]:
+            print(f"Found {len(response['data']['data']['categoryTabs']['items'])} categories")
+            return response["data"]["data"]["categoryTabs"]["items"]
+    raise Exception("Categories not found")
+
+@log
+def load_json_data(filename):
+    with open(filename, "r") as file:
+        return json.load(file)
 
 @screenshot
 @delay
@@ -69,6 +92,10 @@ def visit_category(driver, category):
     params = ALIEXPRESS_CATEGORY_URL_PARAMS.copy()
     params["categoryTab"] = category["id"]
     driver.get(ALIEXPRESS_CATEGORY_URL + urlencode(params))
+    for i in range(3):
+        time.sleep(5)
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+
 
 @log
 def visit_categories(driver, categories):
@@ -81,30 +108,38 @@ def get_products_from_api_request(responses):
     for response in responses:
         if "data" in response["data"] and "fountainListInfo" in response["data"]["data"]:
             products.extend(response["data"]["data"]["fountainListInfo"]["mods"]["itemList"]["content"])
+    return products
 
 @log
 def add_timestamp_to_products(products):
     for product in products:
         product["timestamp"] = datetime.datetime.now().isoformat()
-
     return products
 
+@delay
+@screenshot
 @log
-def save_products_to_file(products):
-    with open("products.json", "w") as file:
-        json.dump(products, file)
+def get_products_from_categories(driver, categories):
+    visit_categories(driver, categories)
+    requests = get_driver_api_request(driver, ALIEXPRESS_CATEGORIES_API)
+    products = get_products_from_api_request(requests)
+    save_json_to_file(products, "products.json")
+    return add_timestamp_to_products(products)
+
+@log 
+def save_json_to_file(data, filename, append=False):
+    if append:
+        load_json_data(filename)
+        data.extend(load_json_data(filename))
+    with open(filename,"w") as file:
+        json.dump(data, file)
 
 def main() -> None:
     driver = get_driver()
     set_driver_aliexpress_cookie_locale(driver)
-    driver.get(ALIEXPRESS_URL)
-    request = get_driver_api_request(driver, ALIEXPRESS_CATEGORIES_API)[0]
-    categories = get_categories_from_api_request(request)
-    visit_categories(driver, categories)
-    requests = get_driver_api_request(driver, ALIEXPRESS_CATEGORIES_API)
-    products = get_products_from_api_request(requests)
-    products = add_timestamp_to_products(products)
-    save_products_to_file(products)
+    categories = get_categories(driver)
+    products = get_products_from_categories(driver, categories)
+    print(f"Found {len(products)} products")
     driver.quit()
 
 

@@ -31,6 +31,9 @@ from dotenv import load_dotenv
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 
+from bot import run as scrape_run
+from analyse import main as run_analyse
+
 import yfinance as yf
 import pandas as pd
 import numpy as np
@@ -211,6 +214,17 @@ def predict_stock_price():
 
 async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
     await message_new_rss_entries(context.bot, context.job.chat_id)
+
+async def scrape_aliexpress(context: ContextTypes.DEFAULT_TYPE) -> None:
+    await context.bot.send_message(context.job.chat_id, "Scraping...")
+    result = await scrape_run()
+    await context.bot.send_message(context.job.chat_id, text=f"Found {result} products")
+
+async def analyse_aliexpress(context: ContextTypes.DEFAULT_TYPE) -> None:
+    await context.bot.send_message(context.job.chat_id, "analyse_aliexpress...")
+    result = await run_analyse()
+    await context.bot.send_message(context.job.chat_id, text=f"Best Ali products: {result}")
+
     
 async def predict(context: ContextTypes.DEFAULT_TYPE) -> None:
     await context.bot.send_message(context.job.chat_id, "Predicting...")
@@ -256,8 +270,11 @@ async def unset(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 async def post_init(self):
     self.job_queue.run_once(boot, 0, chat_id=CHAT_ID)
+
     self.job_queue.run_repeating(alarm, POLL_FEED_INTERVAL, chat_id=CHAT_ID, name=CHAT_ID, data=POLL_FEED_INTERVAL)
-    self.job_queue.run_repeating(predict, 60, chat_id=CHAT_ID)
+    self.job_queue.run_repeating(predict, 60, first=60, chat_id=CHAT_ID)
+    self.job_queue.run_repeating(scrape_aliexpress, 60 * 12, first=60, chat_id=CHAT_ID)
+    self.job_queue.run_repeating(analyse_aliexpress, 60 * 12, first=60 * 6, chat_id=CHAT_ID)
 
 
 def main() -> None:

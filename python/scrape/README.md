@@ -38,10 +38,7 @@ pip freeze >> requirements.txt
 ```bash
 cp scrape.service /etc/systemd/system
 # Start on boot
-sudo systemctl enable scrape.service
-sudo systemctl start scrape.service
-sudo systemctl status scrape.service
-sudo systemctl restart scrape.service
+sudo systemctl [enable|start|status|stop|restart] scrape.service
 # Kill
 sudo systemctl --user --signal=SIGKILL kill scrape.service
 

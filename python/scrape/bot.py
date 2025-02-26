@@ -134,14 +134,15 @@ def save_json_to_file(data, filename, append=False):
     with open(filename,"w") as file:
         json.dump(data, file)
 
-def main() -> None:
+def run() -> None:
     driver = get_driver()
     set_driver_aliexpress_cookie_locale(driver)
     categories = get_categories(driver)
     products = get_products_from_categories(driver, categories)
     print(f"Found {len(products)} products")
     driver.quit()
+    return len(products)
 
 
 if __name__ == "__main__":
-    main()
+    run()

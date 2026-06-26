@@ -54,6 +54,6 @@ deploy vercel
 
 # Day 2
 
-
+npx create-next-app saas --ts --eslint --tailwind --no-src-dir --no-app
 
 

@@ -24,3 +24,9 @@ installed devcontainer extension
 install node nvm
 
 https://nodejs.org/en/download
+
+when installing npm packages
+
+npm approve-scripts --allow-scripts-pending    
+npm approve-scripts --all
+

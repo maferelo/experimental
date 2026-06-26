@@ -56,4 +56,22 @@ deploy vercel
 
 npx create-next-app saas --ts --eslint --tailwind --no-src-dir --no-app
 
+removed api folder
+
+added pages folder with index.tsx and _app.tsx
+
+added api folder with fastapi in index.py
+
+added requirements.txt with fastapi and uvicorn and openai
+
+modify views
+
+vercel link
+
+vercel env add OPENAI_API_KEY
+
+vercel .
+
+vercel --prod
+
 

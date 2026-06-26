@@ -2,7 +2,8 @@
 We started installing some tools to make our development environment more efficient and user-friendly. Here are the tools we installed:
 
 - Docker
-- Bash prompt (starship)
+- Bash prompt (starship) remember to add the line to your .zshrc or .bashrc file
+    eval "$(starship init zsh)"
 - Ollama
 
 with this site 

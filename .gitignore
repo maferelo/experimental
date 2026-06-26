@@ -4,3 +4,5 @@ node_modules/
 python/trade/yfinance.cache
 python/trade/stock_data.csv
 __pycache__/
+.vercel
+.env*

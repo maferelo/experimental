@@ -82,6 +82,6 @@ this to improve the styling and to make it more professional
 
 ## Day 3
 
-
+added auth with clerk and even payments, can be switched to stripe anytime
 
 

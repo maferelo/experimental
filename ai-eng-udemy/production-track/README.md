@@ -74,4 +74,14 @@ vercel .
 
 vercel --prod
 
+## Add real time streaming
+
+add deps and modify api and pages
+
+this to improve the styling and to make it more professional
+
+## Day 3
+
+
+
 

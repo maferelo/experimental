@@ -95,4 +95,12 @@ npm install --save-dev @types/react-datepicker
 
 Change a bit how the folder structure works so we can create a docker image and deploy it to AWS
 
+create normal account in AWS and create a new IAM user with programmatic access and attach the AdministratorAccess and a couple of other policies to it
 
+ECR (Elastic Container Registry) is where we'll store our Docker image.
+
+configure aws cli with the IAM user credentials
+
+and push the docker image to ECR
+
+create lamda function with the docker image and create an API Gateway to expose it

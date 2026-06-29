@@ -104,3 +104,11 @@ configure aws cli with the IAM user credentials
 and push the docker image to ECR
 
 create lamda function with the docker image and create an API Gateway to expose it
+
+# Week 2
+
+# Day 1
+
+so basically it's a model that stores previous conversations(memory) and feeds them to the LLM so it can have a more coherent conversation with the user or per se remember the user and the context of the conversation
+
+http://twin-frontend-8t3bvu0.s3-website-us-east-1.amazonaws.com

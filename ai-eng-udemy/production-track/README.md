@@ -74,14 +74,25 @@ vercel .
 
 vercel --prod
 
-## Add real time streaming
+## Day 2 Add real time streaming
 
 add deps and modify api and pages
 
 this to improve the styling and to make it more professional
 
-## Day 3
+## Day 3 Auth and Payments
 
 added auth with clerk and even payments, can be switched to stripe anytime
+
+## Day 4 Healthcare App
+
+transform into healthcare app
+
+npm install react-datepicker
+npm install --save-dev @types/react-datepicker
+
+## Day 5 AWS deployment
+
+Change a bit how the folder structure works so we can create a docker image and deploy it to AWS
 
 

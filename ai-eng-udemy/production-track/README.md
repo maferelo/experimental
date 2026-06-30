@@ -112,3 +112,26 @@ create lamda function with the docker image and create an API Gateway to expose 
 so basically it's a model that stores previous conversations(memory) and feeds them to the LLM so it can have a more coherent conversation with the user or per se remember the user and the context of the conversation
 
 http://twin-frontend-8t3bvu0.s3-website-us-east-1.amazonaws.com
+
+http://twin-frontend-8t3bvu0.s3-website-us-east-1.amazonaws.com/
+
+https://6cmlyvtdze.execute-api.us-east-1.amazonaws.com/health
+https://dvcmnka4ippha.cloudfront.net
+
+# Day 4
+
+# Destroy dev environment
+./scripts/destroy.sh dev
+
+# Destroy test environment
+./scripts/destroy.sh test
+
+# Destroy prod environment
+./scripts/destroy.sh prod
+
+to delete workspace
+
+terraform workspace select default
+terraform workspace delete dev  # or test, prod
+
+we are missing the prod setup but that would require a custom domain so better later

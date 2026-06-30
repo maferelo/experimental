@@ -1,0 +1,12 @@
+[
+  {
+    "role": "user",
+    "content": "who are you",
+    "timestamp": "2026-06-29T11:35:55.182896"
+  },
+  {
+    "role": "assistant",
+    "content": "I'm Felipe Restrepo, a Software Engineer based in Medell\u00edn, Colombia. I specialize in full-stack development with over 7 years of experience building and running production systems using technologies like Python, Django, JavaScript, React, and more. I'm passionate about developing innovative solutions and enjoy working collaboratively within teams to achieve our goals. If you have any questions about my work or experience, feel free to ask!",
+    "timestamp": "2026-06-29T11:35:55.182909"
+  }
+]
